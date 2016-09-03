@@ -1,0 +1,134 @@
+@import url(http://fonts.googleapis.com/css?family=Indie+Flower:100,200,300,400,500,600,700,800,900);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900);
+
+*{
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+body, html
+{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+	
+    background: linear-gradient(-45deg, #37e568 0%, #212121  100%);
+    background: -moz-linear-gradient(-45deg, #37e568 0%, #212121  100%);
+    background: -webkit-linear-gradient(-45deg, #37e568 0%, #212121  100%);
+    background: -ms-linear-gradient(-45deg, #37e568 0%, #212121  100%);
+    background: -o-linear-gradient(-45deg, #37e568 0%, #212121  100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3498db , endColorstr=#212121 ,GradientType=1);
+
+}
+
+div#welcomeMessage
+{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    line-height: 100px;
+    color: #FFF;
+    top: 50%;
+	letter-spacing: 2px;
+    margin-top: -50px;
+    font-family: 'Indie Flower', sans-serif;
+    font-weight: 600;
+    font-size: 60px;
+}
+div#textMessage
+{
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.075);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "Open Sans";
+    padding: 15px;
+    position: absolute;
+    font-size: 13px;
+    line-height: 125%;
+    border-radius: 0 5px 5px 5px;
+}
+
+div#textMessage:before
+{
+    content: "";
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.075) rgba(0, 0, 0, 0.075) transparent transparent;
+    border-width: 10px;
+    position: absolute;
+    left: -20px;
+    top: 0;
+}
+
+a
+{
+	text-decoration: none;
+	font-weight: bolder;
+	color: #fff;
+}
+
+a:hover 
+{
+	text-decoration: underline;
+}
+
+button#discover
+{
+    background: rgba(0, 0, 200, 0.175);
+    position: absolute;
+    font-size: 13px;
+    padding: 15px;
+    color: #fff;
+}
+div#welcome_msg
+{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    line-height: 100px;
+    color: #FFF;
+    top: 50%;
+	letter-spacing: 2px;
+    margin-top: -50px;
+    font-family: 'Indie Flower', sans-serif;
+    font-weight: 600;
+    font-size: 60px;
+    top: 50%;
+    text-align: center;
+}
+
+
+.box {
+    height:10%;
+    position: absolute;
+    top: 58%;
+    left: 15%;
+    background: rgba(0, 0, 0, 0.075);
+font-family: "Open Sans";
+ padding: 15px;
+font-size: 13px;
+    line-height: 125%;
+    border-radius: 0 5px 5px 5px;
+}
+.box:before {
+      content: "";
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.075) rgba(0, 0, 0, 0.075) transparent transparent;
+    border-width: 10px;
+    position: absolute;
+    left: -20px;
+    top: 0;
+}
+
+#title {
+    margin:5px;
+    border-bottom:1px solid #0f4932;
+    color:#0f4932;
+    font-weight:bold;
+}
+#message {
+    margin:10px;
+    color: rgba(255, 255, 255, 0.9);
+}
