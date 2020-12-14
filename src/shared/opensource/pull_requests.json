@@ -1,0 +1,29 @@
+{
+  "closed": 1,
+  "data": [
+    {
+      "id": "MDExOlB1bGxSZXF1ZXN0NTI4MTk5MjQ1",
+      "title": "Better user experience - files are given with the script call",
+      "url": "https://github.com/albertyw/csv-ical/pull/18",
+      "state": "CLOSED",
+      "mergedBy": null,
+      "createdAt": "2020-11-26T17:17:21Z",
+      "number": 18,
+      "changedFiles": 1,
+      "additions": 3,
+      "deletions": 2,
+      "baseRepository": {
+        "name": "csv-ical",
+        "url": "https://github.com/albertyw/csv-ical",
+        "owner": {
+          "avatarUrl": "https://avatars3.githubusercontent.com/u/3151040?v=4",
+          "login": "albertyw",
+          "url": "https://github.com/albertyw"
+        }
+      }
+    }
+  ],
+  "merged": 0,
+  "open": 0,
+  "totalCount": 1
+}
