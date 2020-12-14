@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f2eaae48ce7838c3a350a241c53762f0",
+    "revision": "c33573e2a7215c2f81bfba4edf3cf74c",
     "url": "/index.html"
   },
   {
-    "revision": "31946113c6252a105c8e",
+    "revision": "d1450b258e3c610761d3",
     "url": "/static/css/main.98483b9c.chunk.css"
   },
   {
-    "revision": "3546a426744e6cb7696e",
-    "url": "/static/js/2.56399129.chunk.js"
+    "revision": "bf3bb768a55384237cea",
+    "url": "/static/js/2.4bb8e317.chunk.js"
   },
   {
-    "revision": "31946113c6252a105c8e",
-    "url": "/static/js/main.eb9e441b.chunk.js"
+    "revision": "d1450b258e3c610761d3",
+    "url": "/static/js/main.4c765132.chunk.js"
   },
   {
     "revision": "6138eaf4a6c67cbf898e",
@@ -52,10 +52,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/Montserrat-Regular.ee653992.ttf"
   },
   {
-    "revision": "cf70c3e64cc0802fac1562a6129e48e0",
-    "url": "/static/media/TSF_logo.cf70c3e6.png"
-  },
-  {
     "revision": "10464c52b29860f5b502db5f2fe35ad2",
     "url": "/static/media/UC_Davis_logo.10464c52.png"
   },
@@ -80,10 +76,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/cloud_infrastructure.dfcb7a58.svg"
   },
   {
-    "revision": "b3685be8bafcd5fe4786b39cba69a561",
-    "url": "/static/media/codeInLogo.b3685be8.png"
-  },
-  {
     "revision": "d6d4086fb1cade58b3f786620e17c3ef",
     "url": "/static/media/contactMail.d6d4086f.png"
   },
@@ -98,10 +90,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "59389695208d7454c6607bed51ed4316",
     "url": "/static/media/developerActivity.59389695.svg"
-  },
-  {
-    "revision": "f65ee6f64b46db0ae0f59279ea7853a8",
-    "url": "/static/media/dsc_logo.f65ee6f6.png"
   },
   {
     "revision": "caed892b2a0b817a8e275ae29638edaf",
@@ -172,8 +160,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/fa-solid-900.c2801fb4.svg"
   },
   {
-    "revision": "a73310ea0ad8aebedb65b3106024427a",
-    "url": "/static/media/feelingProud.a73310ea.svg"
+    "revision": "800dfecdd2883d08f9618f2e8df68201",
+    "url": "/static/media/feelingProud.800dfecd.svg"
   },
   {
     "revision": "589bec7d632ecff9672dc4da97897bbd",
@@ -184,24 +172,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/github_logo.e64de169.png"
   },
   {
-    "revision": "44620be9f04a43d073fd4a28dd9982ea",
-    "url": "/static/media/hfil_logo.44620be9.png"
-  },
-  {
-    "revision": "6d325fec19fe3b6b169d9012f9a1dfb9",
-    "url": "/static/media/ibm_logo.6d325fec.png"
-  },
-  {
     "revision": "b05ae5b575a7e1125610944dc152c35f",
     "url": "/static/media/jsFramework.b05ae5b5.svg"
-  },
-  {
-    "revision": "b222a7a2520109165f781a541b0024ee",
-    "url": "/static/media/logo2.b222a7a2.png"
-  },
-  {
-    "revision": "52be31441c8cf8a8a16bd7a228d428bf",
-    "url": "/static/media/manOnTable.52be3144.svg"
   },
   {
     "revision": "6e7dc5ad476dd2d57600bca9521f3a5d",
@@ -214,10 +186,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "f7964c6bf45e77547f1e5aae1e1dede0",
     "url": "/static/media/projects_image.f7964c6b.svg"
-  },
-  {
-    "revision": "da0e7c80b90df28dd3a590c80f3d4970",
-    "url": "/static/media/stanford_logo.da0e7c80.png"
   },
   {
     "revision": "0288c5ec7a87ea73f8d14b12fc4bc94e",
