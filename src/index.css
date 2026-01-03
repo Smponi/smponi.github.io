@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100;
+    @apply transition-colors duration-300;
+  }
+
+  ::selection {
+    @apply bg-primary-500/30;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-800/70;
+    @apply backdrop-blur-xl;
+    @apply border border-white/20 dark:border-slate-700/50;
+    @apply shadow-xl shadow-slate-900/5 dark:shadow-black/20;
+  }
+
+  .glass-strong {
+    @apply bg-white/90 dark:bg-slate-800/90;
+    @apply backdrop-blur-2xl;
+    @apply border border-white/30 dark:border-slate-700/50;
+    @apply shadow-2xl shadow-slate-900/10 dark:shadow-black/30;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 via-accent-500 to-purple-500;
+    @apply bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  .glow {
+    @apply shadow-lg shadow-primary-500/25 dark:shadow-primary-400/20;
+  }
+
+  .glow-accent {
+    @apply shadow-lg shadow-accent-500/25 dark:shadow-accent-400/20;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400 dark:bg-slate-500;
+}
+
+/* Gradient orbs */
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.gradient-orb-1 {
+  @apply bg-gradient-to-br from-primary-400 to-primary-600;
+  width: 600px;
+  height: 600px;
+}
+
+.gradient-orb-2 {
+  @apply bg-gradient-to-br from-accent-400 to-purple-600;
+  width: 500px;
+  height: 500px;
+}
+
+.dark .gradient-orb {
+  opacity: 0.3;
+}
