@@ -105,7 +105,6 @@ export function Contact() {
               </motion.a>
             </GlassCard>
           </motion.div>
-
           {/* Contact Methods */}
           <div className="grid sm:grid-cols-3 gap-4">
             {contactMethods.map((method, index) => (
