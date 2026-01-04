@@ -1,19 +1,22 @@
-import { motion, HTMLMotionProps } from 'framer-motion'
-import { useState, useRef, ReactNode } from 'react'
+import { useRef, ReactNode, useCallback, useState, useEffect } from 'react'
 
-interface GlassCardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+interface GlassCardProps {
   children: ReactNode
   className?: string
   tilt?: boolean
 }
 
-export function GlassCard({ children, className = '', tilt = true, ...props }: GlassCardProps) {
-  const [rotateX, setRotateX] = useState(0)
-  const [rotateY, setRotateY] = useState(0)
+export function GlassCard({ children, className = '', tilt = true }: GlassCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(true)
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!tilt || !cardRef.current) return
+  // Detect mobile/touch device
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(hover: none)').matches || 'ontouchstart' in window)
+  }, [])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!tilt || isMobile || !cardRef.current) return
 
     const rect = cardRef.current.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
@@ -21,40 +24,25 @@ export function GlassCard({ children, className = '', tilt = true, ...props }: G
     const mouseX = e.clientX - centerX
     const mouseY = e.clientY - centerY
 
-    const rotateXValue = (mouseY / (rect.height / 2)) * -5
-    const rotateYValue = (mouseX / (rect.width / 2)) * 5
+    const rotateX = (mouseY / (rect.height / 2)) * -4
+    const rotateY = (mouseX / (rect.width / 2)) * 4
 
-    setRotateX(rotateXValue)
-    setRotateY(rotateYValue)
-  }
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  }, [tilt, isMobile])
 
-  const handleMouseLeave = () => {
-    setRotateX(0)
-    setRotateY(0)
-  }
+  const handleMouseLeave = useCallback(() => {
+    if (!cardRef.current) return
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+  }, [])
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
-      className={`glass rounded-2xl p-6 ${className}`}
-      style={{
-        transformStyle: 'preserve-3d',
-        perspective: '1000px',
-      }}
-      animate={{
-        rotateX: rotateX,
-        rotateY: rotateY,
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
-      }}
+      className={`glass rounded-2xl p-6 will-change-transform transition-transform duration-150 ease-out ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      {...props}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

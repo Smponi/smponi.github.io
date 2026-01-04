@@ -72,27 +72,88 @@
   @apply bg-slate-400 dark:bg-slate-500;
 }
 
-/* Gradient orbs */
-.gradient-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-  pointer-events: none;
+/* Performant background effects */
+
+/* Slow spin animation - GPU optimized */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.gradient-orb-1 {
-  @apply bg-gradient-to-br from-primary-400 to-primary-600;
-  width: 600px;
-  height: 600px;
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+  will-change: transform;
 }
 
-.gradient-orb-2 {
-  @apply bg-gradient-to-br from-accent-400 to-purple-600;
-  width: 500px;
-  height: 500px;
+/* Conic gradient background */
+.bg-gradient-conic {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    theme('colors.primary.400 / 0.1'),
+    theme('colors.accent.400 / 0.1'),
+    theme('colors.purple.400 / 0.1'),
+    theme('colors.primary.400 / 0.1')
+  );
 }
 
-.dark .gradient-orb {
-  opacity: 0.3;
+.dark .bg-gradient-conic {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    theme('colors.primary.600 / 0.15'),
+    theme('colors.accent.600 / 0.15'),
+    theme('colors.purple.600 / 0.15'),
+    theme('colors.primary.600 / 0.15')
+  );
+}
+
+/* Noise texture */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Grid pattern */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, theme('colors.slate.300') 1px, transparent 1px),
+    linear-gradient(to bottom, theme('colors.slate.300') 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.dark .bg-grid {
+  background-image:
+    linear-gradient(to right, theme('colors.slate.700') 1px, transparent 1px),
+    linear-gradient(to bottom, theme('colors.slate.700') 1px, transparent 1px);
+}
+
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Role carousel animation - CSS for better performance */
+@keyframes role-carousel {
+  0%, 20% {
+    transform: translateY(0);
+  }
+  25%, 45% {
+    transform: translateY(-40px);
+  }
+  50%, 70% {
+    transform: translateY(-80px);
+  }
+  75%, 95% {
+    transform: translateY(-120px);
+  }
+  100% {
+    transform: translateY(-160px);
+  }
+}
+
+.animate-role-carousel {
+  animation: role-carousel 8s ease-in-out infinite;
+  will-change: transform;
 }

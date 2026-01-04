@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { GlassCard } from './ui/GlassCard'
-import { GradientOrb } from './ui/GradientOrb'
 
 export function Contact() {
   const containerVariants = {
@@ -42,20 +41,6 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Background Orbs */}
-      <GradientOrb
-        color="primary"
-        size="md"
-        className="-bottom-20 -right-20"
-        delay={0}
-      />
-      <GradientOrb
-        color="accent"
-        size="sm"
-        className="top-20 -left-10"
-        delay={2}
-      />
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           variants={containerVariants}
