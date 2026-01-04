@@ -6,5 +6,15 @@ export default defineConfig({
   base: '/',
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'framer': ['framer-motion'],
+          'markdown': ['react-markdown', 'remark-gfm'],
+        },
+      },
+    },
   },
+  assetsInclude: ['**/*.md'],
 })

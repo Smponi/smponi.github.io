@@ -11,5 +11,15 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="text/javascript">
+      // SPA redirect restore for GitHub Pages
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.pathname.slice(1)) {
+          history.replaceState(null, null, '/' + redirect);
+        }
+      })();
+    </script>
   </body>
 </html>
