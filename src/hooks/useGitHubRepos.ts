@@ -3,7 +3,7 @@ import { GitHubRepo } from '../types/github'
 
 const GITHUB_USERNAME = 'Smponi'
 const CACHE_KEY = 'github_repos_cache'
-const CACHE_DURATION = 1000 * 60 * 30 // 30 minutes
+const CACHE_DURATION = 1000 * 60 * 60 * 3 // 3 hours
 
 interface CacheData {
   repos: GitHubRepo[]
@@ -49,6 +49,7 @@ export function useGitHubRepos(limit: number = 6) {
             }
             return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
           })
+          .slice(0,limit)
 
         // Cache the results
         localStorage.setItem(CACHE_KEY, JSON.stringify({
@@ -56,7 +57,7 @@ export function useGitHubRepos(limit: number = 6) {
           timestamp: Date.now()
         }))
 
-        setRepos(filteredRepos.slice(0, limit))
+        setRepos(filteredRepos)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error')
       } finally {
