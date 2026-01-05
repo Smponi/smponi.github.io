@@ -1,56 +1,77 @@
-import { writeFileSync, readFileSync, readdirSync } from 'fs';
+import { readFileSync, readdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { Feed } from 'feed';
-
-// Deine bestehende Logik (leicht angepasst für Node)
-function parseFrontmatter(rawContent: string) {
-  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-  const match = rawContent.match(frontmatterRegex);
-  if (!match) return { data: {} as any, content: rawContent };
-  
-  const data: any = {};
-  match[1].split('\n').forEach(line => {
-    const [key, ...val] = line.split(':');
-    if (key && val) data[key.trim()] = val.join(':').trim().replace(/^['"](.*)['"]$/, '$1');
-  });
-  return { data, content: match[2] };
-}
+import { marked } from 'marked';
+import yaml from 'js-yaml';
+import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 
 const SITE_URL = 'https://philipp.smponias.de';
+const { window } = new JSDOM('');
+const purify = DOMPurify(window);
 
-const feed = new Feed({
-  title: 'Mein Software Engineer Blog',
-  description: 'Insights über Code, Tech und was mich so interessiert',
-  id: SITE_URL,
-  link: SITE_URL,
-  language: 'de',
-  copyright: `All rights reserved ${new Date().getFullYear()}`,
-  generator: 'RSS Generator',
-  feedLinks: { rss2: `${SITE_URL}/rss.xml` },
-});
+
+// 1. Sicherer HTML-Sanitizer & Absolute URL Logic
+const cleanAndAbsolute = (html: string) => {
+  const sanitized = purify.sanitize(html);
+  // Ersetze relative Pfade durch absolute (Security: Protokolle validieren)
+  return sanitized.replace(
+    /(src|href)="\/([^"]*)"/g, 
+    (match, attr, path) => `${attr}="${SITE_URL}/${path}"`
+  );
+};
+
+// 2. CDATA Protection
+const safeCData = (content: string) => {
+  return `<![CDATA[${content.replace(/]]>/g, ']]&gt;')}]]>`;
+};
 
 const blogDir = join(process.cwd(), 'content/blog');
-const files = readdirSync(blogDir).filter(f => f.endsWith('.md'));
+const posts = readdirSync(blogDir)
+  .filter(f => f.endsWith('.md'))
+  .map(file => {
+    const raw = readFileSync(join(blogDir, file), 'utf-8');
+    const parts = raw.split('---');
+    if (parts.length < 3) return null;
 
-files.forEach(file => {
-  const raw = readFileSync(join(blogDir, file), 'utf-8');
-  const { data, content } = parseFrontmatter(raw);
-  
-  if (data.published === 'false') return;
+    try {
+      // 3. Robustes YAML Parsing
+      const data = yaml.load(parts[1]) as any;
+      const contentMarkdown = parts.slice(2).join('---');
+      const contentHtml = cleanAndAbsolute(marked.parse(contentMarkdown) as string);
+      
+      return {
+        title: data.title || 'Untitled',
+        date: data.date || new Date(),
+        slug: file.replace('.md', ''),
+        contentHtml
+      };
+    } catch (e) {
+      return null;
+    }
+  }).filter(Boolean);
 
-  const slug = file.replace('.md', '');
-  const url = `${SITE_URL}/blog/${slug}`;
+  const rssItems = posts.map(p => `
+    <item>
+      <title>${safeCData(p!.title)}</title>
+      <link>${SITE_URL}/blog/${p!.slug}</link>
+      <guid>${SITE_URL}/blog/${p!.slug}</guid>
+      <pubDate>${new Date(p!.date).toUTCString()}</pubDate>
+      <content:encoded>${safeCData(p!.contentHtml)}</content:encoded>
+    </item>`).join('');
 
-  feed.addItem({
-    title: data.title || 'Untitled',
-    id: url,
-    link: url,
-    description: data.description,
-    content: content.slice(0, 500) + '...', // Kurzer Teaser
-    date: new Date(data.date || Date.now()),
-  });
-});
+const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" 
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Mein Blog</title>
+  <link>${SITE_URL}</link>
+  <description>Software Engineering Blog</description>
+  <language>de</language>
+  <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml" />
+  ${rssItems}
+</channel>
+</rss>`;
 
-// Schreibe die Datei in den public Ordner (wird von Vite nach dist kopiert)
-writeFileSync(join(process.cwd(), 'public/rss.xml'), feed.rss2());
+writeFileSync(join(process.cwd(), 'public/rss.xml'), rssFeed);
 console.log('✅ RSS Feed generiert: public/rss.xml');
