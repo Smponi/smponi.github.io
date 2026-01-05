@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon1.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Philipp Smponias - Mobile Developer & Software Engineer. Android, iOS, and Full-Stack Development." />
-    <meta name="theme-color" content="#6366f1" />
-    <title>Philipp Smponias | Mobile Engineer</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script type="text/javascript">
-      // SPA redirect restore for GitHub Pages
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.pathname.slice(1)) {
-          history.replaceState(null, null, '/' + redirect);
-        }
-      })();
-    </script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon1.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Philipp Smponias - Mobile Developer & Software Engineer. Android, iOS, and Full-Stack Development." />
+  <meta name="theme-color" content="#6366f1" />
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed für meinen Blog" href="/rss.xml" />
+  <title>Philipp Smponias | Mobile Engineer</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script type="text/javascript">
+    // SPA redirect restore for GitHub Pages
+    (function () {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.pathname.slice(1)) {
+        history.replaceState(null, null, '/' + redirect);
+      }
+    })();
+  </script>
+</body>
+
 </html>

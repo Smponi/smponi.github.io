@@ -40,3 +40,6 @@ coverage
 
 # TypeScript
 *.tsbuildinfo
+ 
+# Blog - RSS feed will always be generated.
+public/rss.xml
