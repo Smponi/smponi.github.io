@@ -79,7 +79,7 @@ export function BlogPost() {
             </header>
 
             {/* Post Content */}
-            <GlassCard className="prose prose-lg dark:prose-invert prose-slate max-w-none">
+            <GlassCard tilt={false} className="prose prose-lg dark:prose-invert prose-slate max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
