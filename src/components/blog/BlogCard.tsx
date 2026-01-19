@@ -18,6 +18,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
   return (
     <Link to={`/blog/${post.slug}`} className="block group">
       <GlassCard
+        tilt={false}
         className={`h-full hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors ${
           featured ? 'p-8' : 'p-6'
         }`}
