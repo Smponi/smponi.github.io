@@ -8,9 +8,9 @@ export function Background() {
 
       {/* Mesh gradient - static, GPU-friendly */}
       <div className="absolute inset-0 opacity-60 dark:opacity-40">
-        <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-gradient-radial from-primary-400/30 to-transparent rounded-full blur-3xl" />
-        <div className="absolute top-1/4 -right-1/4 w-1/2 h-1/2 bg-gradient-radial from-accent-400/30 to-transparent rounded-full blur-3xl" />
-        <div className="absolute -bottom-1/4 left-1/3 w-1/2 h-1/2 bg-gradient-radial from-purple-400/20 to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-gradient-radial from-primary-400/30 to-transparent rounded-full blur-2xl" />
+        <div className="absolute top-1/4 -right-1/4 w-1/2 h-1/2 bg-gradient-radial from-accent-400/30 to-transparent rounded-full blur-2xl" />
+        <div className="absolute -bottom-1/4 left-1/3 w-1/2 h-1/2 bg-gradient-radial from-purple-400/20 to-transparent rounded-full blur-2xl" />
       </div>
 
       {/* Animated gradient overlay - CSS animation, GPU-optimized */}
@@ -30,29 +30,47 @@ export function Background() {
 
 function ScrollGlow() {
   const glowRef = useRef<HTMLDivElement>(null)
+  const maxScrollRef = useRef(0)
+  const rafIdRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!glowRef.current) return
-      const scrollY = window.scrollY
-      const maxScroll = document.body.scrollHeight - window.innerHeight
-      const scrollPercent = Math.min(scrollY / maxScroll, 1)
+    // Calculate maxScroll once and on resize (avoids layout thrashing on scroll)
+    const updateMaxScroll = () => {
+      maxScrollRef.current = document.body.scrollHeight - window.innerHeight
+    }
+    updateMaxScroll()
 
-      // Move glow based on scroll
-      glowRef.current.style.transform = `translateY(${scrollPercent * 50}vh)`
+    const handleScroll = () => {
+      // Throttle to animation frame to avoid excessive updates
+      if (rafIdRef.current !== null) return
+
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null
+        if (!glowRef.current || maxScrollRef.current <= 0) return
+
+        const scrollPercent = Math.min(window.scrollY / maxScrollRef.current, 1)
+        glowRef.current.style.transform = `translateY(${scrollPercent * 50}vh)`
+      })
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('resize', updateMaxScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', updateMaxScroll)
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current)
+      }
+    }
   }, [])
 
   return (
     <div
       ref={glowRef}
       className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] pointer-events-none will-change-transform"
-      style={{ transition: 'transform 0.1s ease-out' }}
     >
-      <div className="w-full h-full bg-gradient-radial from-primary-500/20 via-accent-500/10 to-transparent rounded-full blur-3xl" />
+      <div className="w-full h-full bg-gradient-radial from-primary-500/20 via-accent-500/10 to-transparent rounded-full blur-2xl" />
     </div>
   )
 }

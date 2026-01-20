@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 interface NavbarProps {
@@ -9,13 +9,26 @@ interface NavbarProps {
 
 export function Navbar({ theme, toggleTheme }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
+  const rafIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      // Throttle to animation frame
+      if (rafIdRef.current !== null) return
+
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null
+        setScrolled(window.scrollY > 50)
+      })
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current)
+      }
+    }
   }, [])
 
   const navItems = [
@@ -28,7 +41,7 @@ export function Navbar({ theme, toggleTheme }: NavbarProps) {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-[padding,background-color,box-shadow,border-color] duration-300 ${
         scrolled ? 'glass-strong py-3' : 'py-5'
       }`}
       initial={{ y: -100 }}

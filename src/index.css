@@ -20,14 +20,14 @@
 @layer components {
   .glass {
     @apply bg-white/70 dark:bg-slate-800/70;
-    @apply backdrop-blur-xl;
+    @apply backdrop-blur-lg; /* Reduced from backdrop-blur-xl for better performance */
     @apply border border-white/20 dark:border-slate-700/50;
     @apply shadow-xl shadow-slate-900/5 dark:shadow-black/20;
   }
 
   .glass-strong {
     @apply bg-white/90 dark:bg-slate-800/90;
-    @apply backdrop-blur-2xl;
+    @apply backdrop-blur-xl; /* Reduced from backdrop-blur-2xl for better performance */
     @apply border border-white/30 dark:border-slate-700/50;
     @apply shadow-2xl shadow-slate-900/10 dark:shadow-black/30;
   }
@@ -156,4 +156,36 @@
 .animate-role-carousel {
   animation: role-carousel 8s ease-in-out infinite;
   will-change: transform;
+}
+
+/* Gradient text animation */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-spin-slow,
+  .animate-role-carousel,
+  .gradient-text {
+    animation: none !important;
+  }
+
+  .will-change-transform {
+    will-change: auto;
+  }
 }

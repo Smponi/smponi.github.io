@@ -1,4 +1,5 @@
-import { useRef, ReactNode, useCallback, useState, useEffect } from 'react'
+import { useRef, ReactNode, useCallback } from 'react'
+import { useIsMobile } from '../../hooks/useIsMobile'
 
 interface GlassCardProps {
   children: ReactNode
@@ -8,12 +9,7 @@ interface GlassCardProps {
 
 export function GlassCard({ children, className = '', tilt = true }: GlassCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(true)
-
-  // Detect mobile/touch device
-  useEffect(() => {
-    setIsMobile(window.matchMedia('(hover: none)').matches || 'ontouchstart' in window)
-  }, [])
+  const isMobile = useIsMobile() // Shared hook - no redundant useEffect per component
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!tilt || isMobile || !cardRef.current) return
