@@ -1,0 +1,13 @@
+{{/* Homepage: about content + link to writing */}}
+<div class="max-w-prose">
+  {{ with .Content }}
+    <section class="prose dark:prose-invert mb-10">
+      {{ . }}
+    </section>
+  {{ end }}
+
+  <a href="/posts/"
+     class="writing-link text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300">
+    Blog &rarr;
+  </a>
+</div>

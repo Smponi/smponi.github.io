@@ -3,13 +3,15 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [master]
-  workflow_dispatch:
+  workflow_dispatch:   # allow manual trigger
 
+# Sets permissions for the GITHUB_TOKEN to allow Pages deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Only one deployment at a time
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -17,34 +19,31 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.157.0
     steps:
-      - name: Checkout
+      - name: Install Hugo
+        run: |
+          wget -q "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i "hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+
+      - name: Checkout (with submodules for Blowfish theme)
         uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
         with:
-          version: 9
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
+          submodules: recursive   # required — Theme is a git submodule
+          fetch-depth: 0          # full history for .GitInfo and .Lastmod
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./public
 
   deploy:
     environment:

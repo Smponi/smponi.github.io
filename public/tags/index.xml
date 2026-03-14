@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Philipp</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Philipp</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de</language>
+    <copyright>© 2026 Philipp</copyright>
+    <lastBuildDate>Wed, 11 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Android</title>
+      <link>http://localhost:1313/tags/android/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/android/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>App Functions</title>
+      <link>http://localhost:1313/tags/app-functions/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/app-functions/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gemini</title>
+      <link>http://localhost:1313/tags/gemini/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/gemini/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Google</title>
+      <link>http://localhost:1313/tags/google/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/google/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>IOS</title>
+      <link>http://localhost:1313/tags/ios/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/ios/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>KI</title>
+      <link>http://localhost:1313/tags/ki/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/ki/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Siri</title>
+      <link>http://localhost:1313/tags/siri/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/siri/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>UX</title>
+      <link>http://localhost:1313/tags/ux/</link>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/ux/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Claude Code</title>
+      <link>http://localhost:1313/tags/claude-code/</link>
+      <pubDate>Mon, 19 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/claude-code/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Codex</title>
+      <link>http://localhost:1313/tags/codex/</link>
+      <pubDate>Mon, 19 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/codex/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ralph Wiggum</title>
+      <link>http://localhost:1313/tags/ralph-wiggum/</link>
+      <pubDate>Mon, 19 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/ralph-wiggum/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Software-Entwicklung</title>
+      <link>http://localhost:1313/tags/software-entwicklung/</link>
+      <pubDate>Mon, 19 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/software-entwicklung/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ankündigung</title>
+      <link>http://localhost:1313/tags/ank%C3%BCndigung/</link>
+      <pubDate>Sat, 04 Jan 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/ank%C3%BCndigung/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>http://localhost:1313/tags/blog/</link>
+      <pubDate>Sat, 04 Jan 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/blog/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Software Engineering</title>
+      <link>http://localhost:1313/tags/software-engineering/</link>
+      <pubDate>Sat, 04 Jan 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/tags/software-engineering/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

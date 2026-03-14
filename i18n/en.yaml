@@ -1,0 +1,4 @@
+search:
+  open_button_title: "Search (/ or ⌘K)"
+  close_button_title: "Close (Esc)"
+  input_placeholder: "Search posts…"

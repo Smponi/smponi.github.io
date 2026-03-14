@@ -1,0 +1,13 @@
+{{/* Cmd/Ctrl+K → open search (mirrors the existing "/" shortcut from Blowfish) */}}
+{{ if site.Params.enableSearch }}
+<script>
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      var btn = document.getElementById("search-button") ||
+                document.getElementById("search-button-mobile");
+      if (btn) btn.click();
+    }
+  });
+</script>
+{{ end }}

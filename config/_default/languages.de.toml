@@ -1,0 +1,17 @@
+languageCode = "de"
+languageName = "Deutsch"
+weight = 3
+title = "Philipp"
+
+[params]
+  displayName = "Deutsch"
+  isoCode = "de"
+  rtl = false
+  dateFormat = "2. January 2006"
+
+[params.author]
+  name = "Philipp"
+  headline = "Gedanken zu Software, KI, Homeserver und alles mögliche!"
+  links = [
+    { github = "https://github.com/Smponi" },
+  ]

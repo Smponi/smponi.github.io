@@ -1,0 +1,64 @@
+# -- Theme Options --
+# https://blowfish.page/docs/configuration/#theme-parameters
+
+colorScheme = "terminal"
+defaultAppearance = "dark"
+autoSwitchAppearance = false
+
+enableSearch = true
+enableCodeCopy = true
+mainSections = ["posts"]
+
+disableImageOptimization = false
+disableTextInHeader = false
+
+highlightCurrentMenuArea = true
+smartTOC = false
+
+[header]
+  layout = "fixed"
+
+[footer]
+  showMenu = false
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = false
+  showScrollToTop = true
+
+[homepage]
+  layout = "list"
+  showRecent = true
+  showRecentItems = 20
+  showMoreLink = false
+  cardView = false
+
+[article]
+  showDate = true
+  showDateUpdated = false
+  showAuthor = false
+  showHero = false
+  showBreadcrumbs = false
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  invertPagination = false
+  showReadingTime = true
+  showTableOfContents = false
+  showRelatedContent = false
+  showTaxonomies = true
+  showWordCount = false
+  sharingLinks = []
+  showZenMode = false
+
+[list]
+  showHero = false
+  showBreadcrumbs = false
+  showSummary = false
+  showTableOfContents = false
+  showCards = false
+  groupByYear = true
+  cardView = false
+
+[sitemap]
+  excludedKinds = []
