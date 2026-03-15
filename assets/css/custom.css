@@ -57,8 +57,12 @@ p, li, a, nav, button, input, label {
 body { font-size: 1rem; }
 
 /* --- Layout --- */
-main    { max-width: 72ch; margin-inline: auto; }
-.prose  { max-width: 68ch; }
+main    { max-width: min(72ch, 100%); margin-inline: auto; }
+.prose  { max-width: min(68ch, 100%); }
+
+/* Prevent any child from blowing out the mobile viewport */
+body { overflow-x: hidden; }
+main { overflow-x: hidden; }
 
 /* --- Prose text readability --- */
 
