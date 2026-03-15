@@ -1,25 +1,45 @@
 /* ================================================================
-   Terminal theme — dark green, monospace
+   Terminal theme — dark slate, monospace, amber accent
    ================================================================ */
 
 /* --- Color variables --- */
 :root {
-  --color-neutral-900: 13,  17,  13;
-  --color-neutral-800: 20,  26,  20;
-  --color-neutral-700: 30,  38,  30;
-  --color-neutral-600: 45,  58,  45;
-  --color-neutral-500: 115, 150, 115;  /* 5.3:1 — passes WCAG AA */
-  --color-neutral-400: 150, 185, 150;  /* 8.1:1 */
-  --color-neutral-300: 190, 215, 190;  /* 12:1  */
-  --color-neutral-200: 215, 232, 215;
-  --color-neutral-100: 238, 244, 238;
-  --color-neutral:     245, 248, 245;  /* 16.5:1 — body text */
+  /* True near-black slate — no green tint */
+  --color-neutral-900: 10,  10,  14;
+  --color-neutral-800: 18,  18,  24;
+  --color-neutral-700: 28,  28,  36;
+  --color-neutral-600: 44,  44,  56;
+  --color-neutral-500: 90,  90, 108;
+  --color-neutral-400: 130, 130, 150;
+  --color-neutral-300: 175, 175, 192;
+  --color-neutral-200: 210, 210, 224;
+  --color-neutral-100: 235, 235, 245;
+  --color-neutral-50:  248, 248, 252;
+  --color-neutral:     245, 245, 250;   /* body text — off-white, easy on eyes */
 
-  /* Muted emerald accent */
-  --color-primary-300: 110, 231, 183;
-  --color-primary-400: 52,  211, 153;
-  --color-primary-500: 34,  197, 94;
-  --color-primary-600: 22,  163, 74;
+  /* Warm amber accent — single, distinctive, pops on dark */
+  --color-primary-900: 30,  15,   0;
+  --color-primary-800: 60,  30,   0;
+  --color-primary-700: 120, 60,   0;
+  --color-primary-600: 180, 95,   5;
+  --color-primary-500: 217, 119,  6;   /* amber-600 */
+  --color-primary-400: 245, 158, 11;   /* amber-500 */
+  --color-primary-300: 251, 191, 36;   /* amber-400 */
+  --color-primary-200: 253, 224, 71;
+  --color-primary-100: 254, 243, 199;
+  --color-primary-50:  255, 251, 235;
+
+  /* Secondary — cool slate blue, subtle */
+  --color-secondary-900: 15,  20,  35;
+  --color-secondary-800: 30,  40,  70;
+  --color-secondary-700: 51,  65, 105;
+  --color-secondary-600: 71,  93, 145;
+  --color-secondary-500: 99, 125, 179;
+  --color-secondary-400: 130, 158, 205;
+  --color-secondary-300: 165, 190, 225;
+  --color-secondary-200: 200, 215, 240;
+  --color-secondary-100: 230, 237, 250;
+  --color-secondary-50:  245, 248, 255;
 }
 
 /* --- Monospace font everywhere --- */
@@ -39,6 +59,87 @@ body { font-size: 1rem; }
 /* --- Layout --- */
 main    { max-width: 72ch; margin-inline: auto; }
 .prose  { max-width: 68ch; }
+
+/* --- Prose text readability --- */
+
+/* Dark mode: lift body text from neutral-300 (175,175,192) to near-white */
+.prose {
+  --tw-prose-invert-body: rgba(var(--color-neutral-100), 1);
+}
+
+.prose p,
+.prose li {
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+.prose p {
+  margin-bottom: 1.4em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2.2em;
+  margin-bottom: 0.7em;
+  letter-spacing: -0.01em;
+}
+
+/* --- Article pagination --- */
+.article-pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px dotted rgb(var(--color-neutral-600));
+}
+
+.article-pagination a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgb(var(--color-neutral-700));
+  background: rgb(var(--color-neutral-800));
+  text-decoration: none !important;
+  transition: none;
+}
+
+.article-pagination a:hover {
+  border-color: rgb(var(--color-primary-500));
+  background: rgb(var(--color-neutral-700));
+}
+
+.pagination-next a {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.pagination-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-primary-400));
+  font-weight: 600;
+}
+
+.pagination-title {
+  font-size: 0.875rem;
+  color: rgb(var(--color-neutral-100));
+  line-height: 1.4;
+}
+
+.pagination-date {
+  font-size: 0.7rem;
+  color: rgb(var(--color-neutral-400));
+  margin-top: 0.15rem;
+}
+
+/* Empty slot keeps grid balanced */
+.pagination-prev:empty,
+.pagination-next:empty {
+  visibility: hidden;
+}
 
 /* --- ">" prefix on the Writing → link --- */
 .writing-link::before { content: "> "; opacity: 0.4; }

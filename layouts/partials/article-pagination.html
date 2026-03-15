@@ -1,0 +1,34 @@
+{{ if .Params.showPagination | default (.Site.Params.article.showPagination | default true) }}
+  {{ if or .NextInSection .PrevInSection }}
+    {{ $next := .NextInSection }}
+    {{ $prev := .PrevInSection }}
+    {{ if .Params.invertPagination | default (.Site.Params.article.invertPagination | default false) }}
+      {{ $next = .PrevInSection }}
+      {{ $prev = .NextInSection }}
+    {{ end }}
+    <nav class="article-pagination">
+      <div class="pagination-prev">
+        {{ if $prev }}
+          <a href="{{ $prev.RelPermalink }}">
+            <span class="pagination-label">← zurück</span>
+            <span class="pagination-title">{{ $prev.Title | emojify }}</span>
+            {{ if .Params.showDate | default (.Site.Params.article.showDate | default true) }}
+              <span class="pagination-date">{{ partial "meta/date.html" $prev.Date }}</span>
+            {{ end }}
+          </a>
+        {{ end }}
+      </div>
+      <div class="pagination-next">
+        {{ if $next }}
+          <a href="{{ $next.RelPermalink }}">
+            <span class="pagination-label">weiter →</span>
+            <span class="pagination-title">{{ $next.Title | emojify }}</span>
+            {{ if .Params.showDate | default (.Site.Params.article.showDate | default true) }}
+              <span class="pagination-date">{{ partial "meta/date.html" $next.Date }}</span>
+            {{ end }}
+          </a>
+        {{ end }}
+      </div>
+    </nav>
+  {{ end }}
+{{ end }}
