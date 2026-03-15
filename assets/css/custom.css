@@ -64,11 +64,18 @@ main    { max-width: min(72ch, 100%); margin-inline: auto; }
 body { overflow-x: hidden; }
 main { overflow-x: hidden; }
 
+/* --- Scrollbar gutter: prevents header shift when scrollbar appears --- */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* --- Prose text readability --- */
 
-/* Dark mode: lift body text from neutral-300 (175,175,192) to near-white */
+/* Dark mode: lift body text, match code colors to amber accent */
 .prose {
-  --tw-prose-invert-body: rgba(var(--color-neutral-100), 1);
+  --tw-prose-invert-body:   rgba(var(--color-neutral-100), 1);
+  --tw-prose-invert-code:   rgba(var(--color-primary-300), 1);
+  --tw-prose-invert-links:  rgba(var(--color-primary-400), 1);
 }
 
 .prose p,
