@@ -16,7 +16,13 @@
   identifier = "github"
   pre = "github"
   url = "https://github.com/Smponi"
-  weight = 400
+  weight = 40
+
+[[main]]
+  identifier = "linkedin"
+  pre = "linkedin"
+  url = "https://www.linkedin.com/in/smponias-p/"
+  weight = 50
 
 
 # -- Fußzeilenmenü --
