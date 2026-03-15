@@ -94,6 +94,25 @@ main    { max-width: 72ch; margin-inline: auto; }
   border-top: 1px dotted rgb(var(--color-neutral-600));
 }
 
+@media (max-width: 640px) {
+  .article-pagination {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination-next {
+    order: 2;
+  }
+
+  .pagination-prev {
+    order: 1;
+  }
+
+  .pagination-next a {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
 .article-pagination a {
   display: flex;
   flex-direction: column;
