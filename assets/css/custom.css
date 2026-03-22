@@ -223,8 +223,9 @@ article #single_header h1::after {
 .terminal-window {
   border: 1px solid rgb(var(--color-neutral-700));
   border-radius: 8px;
-  overflow: hidden;
+  overflow: clip;
   background: rgb(var(--color-neutral-900));
+  touch-action: pan-y;
 }
 
 .terminal-header {
