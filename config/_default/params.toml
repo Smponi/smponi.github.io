@@ -1,6 +1,8 @@
 # -- Theme Options --
 # https://blowfish.page/docs/configuration/#theme-parameters
 
+description = "Philipps Blog - Gedanken zu Software Engineering, KI, Mobile-Dev und Homeserver."
+
 colorScheme = "terminal"
 defaultAppearance = "dark"
 autoSwitchAppearance = false
@@ -37,7 +39,7 @@ smartTOC = false
   showDateUpdated = false
   showAuthor = false
   showHero = false
-  showBreadcrumbs = false
+  showBreadcrumbs = true
   showDraftLabel = true
   showEdit = false
   showHeadingAnchors = true
@@ -59,6 +61,8 @@ smartTOC = false
   showCards = false
   groupByYear = true
   cardView = false
+
+enableStructuredBreadcrumbs = true
 
 [sitemap]
   excludedKinds = []

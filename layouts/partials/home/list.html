@@ -1,13 +1,47 @@
-{{/* Homepage: about content + link to writing */}}
-<div class="max-w-prose">
-  {{ with .Content }}
-    <section class="prose dark:prose-invert mb-10">
-      {{ . }}
-    </section>
-  {{ end }}
+{{/* Homepage: Terminal-inspired hero + recent posts */}}
+<div class="max-w-prose mx-auto">
 
-  <a href="/posts/"
-     class="writing-link text-primary-400 dark:text-primary-400 hover:text-primary-300 dark:hover:text-primary-300">
-    Blog &rarr;
-  </a>
+  {{/* Terminal window */}}
+  <div class="terminal-window" data-reveal>
+    <div class="terminal-header">
+      <span class="terminal-dot terminal-dot--red"></span>
+      <span class="terminal-dot terminal-dot--yellow"></span>
+      <span class="terminal-dot terminal-dot--green"></span>
+      <span class="terminal-title">philipp@blog:~</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-typed">cat about.txt</span>
+      </div>
+      {{ with .Content }}
+        <section class="prose dark:prose-invert terminal-output terminal-reveal" style="--reveal-delay: 0.85s;">
+          {{ . }}
+        </section>
+      {{ end }}
+      <div class="terminal-line terminal-reveal" style="--reveal-delay: 1.1s;">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-cursor">_</span>
+      </div>
+    </div>
+  </div>
+
+  {{/* Latest posts section */}}
+  <section class="mt-16">
+    <h2 class="section-heading" data-reveal>// Letzte Posts</h2>
+    {{ range first 3 (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) }}
+      <a href="{{ .RelPermalink }}" class="post-card" data-reveal>
+        <div class="post-card__meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
+          <span>{{ .ReadingTime }} min</span>
+        </div>
+        <h3 class="post-card__title">{{ .Title }}</h3>
+        {{ with .Description }}<p class="post-card__desc">{{ . }}</p>{{ end }}
+      </a>
+    {{ end }}
+    <a href="/posts/" class="writing-link text-primary-400 mt-6 inline-block" data-reveal>
+      ls ./posts/ &rarr;
+    </a>
+  </section>
+
 </div>

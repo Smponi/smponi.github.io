@@ -1,5 +1,6 @@
 ---
 title: "Philipp Smponias"
+description: "Philipp Smponias - Gedanken zu Software Engineering, KI, Mobile-Dev und Homeserver."
 ---
 
 Hi, ich bin Philipp. 👋

@@ -2,6 +2,7 @@
 title: "Willkommen auf meinem Blog"
 date: "2025-01-04"
 tags: ["Ankündigung", "Blog", "Software Engineering"]
+description: "Willkommen auf meinem Blog - hier schreibe ich ueber Mobile Architecture, Tools, Workflows und Server."
 ---
 
 Hallo und willkommen auf meinem Blog!
