@@ -1,3 +1,10 @@
+{{/* Edge-to-edge: extend viewport into safe areas (notch, rounded corners)
+     This REPLACES the default viewport tag from head.html — only one may exist */}}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+{{/* iOS: transparent status bar that blends with page background */}}
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 {{/* View Transitions API — progressive enhancement (Chromium only, ignored elsewhere) */}}
 <meta name="view-transition" content="same-origin">
 <style>

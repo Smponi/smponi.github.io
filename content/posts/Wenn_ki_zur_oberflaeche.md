@@ -2,7 +2,7 @@
 title: "App Functions und KI im mobilen OS"
 date: "2026-03-11"
 tags: [ "Android", "Google", "Gemini", "App Functions", "iOS", "Siri", "KI", "UX"]
-description: "Wie App Functions (Android) und App Intents (iOS) die Rolle von UI und UX in der mobilen Welt veraendern."
+description: "Wie App Functions (Android) und App Intents (iOS) die Rolle von UI und UX in der mobilen Welt verändern."
 ---
 ## KI will nicht mehr nur chatten
 
