@@ -80,9 +80,11 @@ body { font-size: 1rem; }
 main    { max-width: min(72ch, 100%); margin-inline: auto; }
 .prose  { max-width: min(68ch, 100%); }
 
-/* Prevent any child from blowing out the mobile viewport */
-body { overflow-x: hidden; }
-main { overflow-x: hidden; }
+/* Prevent any child from blowing out the mobile viewport
+   Use clip instead of hidden — hidden creates a scroll container
+   that traps touch events on iOS Safari */
+body { overflow-x: clip; }
+main { overflow-x: clip; }
 
 /* --- Scrollbar gutter: prevents header shift when scrollbar appears --- */
 html {
