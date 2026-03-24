@@ -28,6 +28,57 @@
 })();
 </script>
 
+{{/* 3D magnetic tilt on post cards — hover:hover devices only */}}
+<script>
+(function () {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var cards = document.querySelectorAll('.post-card');
+  if (!cards.length) return;
+
+  document.documentElement.classList.add('tilt-enabled');
+
+  var MAX = 6;
+  var S = 1.02;
+
+  cards.forEach(function (card) {
+    var bounds = null;
+    var raf = null;
+
+    card.addEventListener('mouseenter', function () {
+      bounds = card.getBoundingClientRect();
+      card.classList.remove('tilt-return');
+      card.classList.add('tilt-active');
+    });
+
+    card.addEventListener('mousemove', function (e) {
+      if (!bounds) bounds = card.getBoundingClientRect();
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        var x = (e.clientX - bounds.left) / bounds.width;
+        var y = (e.clientY - bounds.top) / bounds.height;
+        var ry = ((x - 0.5) * 2 * MAX).toFixed(2);
+        var rx = ((0.5 - y) * 2 * MAX).toFixed(2);
+        card.style.transform =
+          'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(' + S + ',' + S + ',1)';
+        card.style.setProperty('--mouse-x', (x * 100).toFixed(1) + '%');
+        card.style.setProperty('--mouse-y', (y * 100).toFixed(1) + '%');
+        raf = null;
+      });
+    });
+
+    card.addEventListener('mouseleave', function () {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      card.classList.add('tilt-return');
+      card.classList.remove('tilt-active');
+      card.style.transform = '';
+      bounds = null;
+    });
+  });
+})();
+</script>
+
 {{/* Reading progress bar — only on single article pages */}}
 <script>
 (function () {

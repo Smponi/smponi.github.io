@@ -225,12 +225,59 @@ article #single_header h1::after {
    Terminal Window
    ================================================================ */
 
+/* Ambient light pool — radial gradient visible against the dark background */
+.terminal-glow-wrap {
+  position: relative;
+}
+
+.terminal-glow-wrap::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -20%;
+  right: -20%;
+  bottom: -30%;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgba(var(--color-primary-500), 0.10),
+    rgba(var(--color-primary-500), 0.03) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: terminal-glow-bg 8s ease-in-out infinite;
+}
+
+@keyframes terminal-glow-bg {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
 .terminal-window {
+  position: relative;
+  z-index: 1;
   border: 1px solid rgb(var(--color-neutral-700));
   border-radius: 8px;
   overflow: clip;
   background: rgb(var(--color-neutral-900));
   touch-action: pan-y;
+  box-shadow:
+    0 0 30px -10px rgba(var(--color-primary-500), 0.12),
+    0 0 60px -20px rgba(var(--color-primary-500), 0.06);
+  animation: terminal-glow 8s ease-in-out infinite;
+}
+
+@keyframes terminal-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 30px -10px rgba(var(--color-primary-500), 0.12),
+      0 0 60px -20px rgba(var(--color-primary-500), 0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 40px -6px rgba(var(--color-primary-500), 0.18),
+      0 0 80px -14px rgba(var(--color-primary-500), 0.10);
+  }
 }
 
 .terminal-header {
@@ -328,6 +375,8 @@ article #single_header h1::after {
   }
   .terminal-cursor { animation: none; }
   .terminal-reveal { opacity: 1; animation: none; transform: none; }
+  .terminal-window { animation: none; }
+  .terminal-glow-wrap::before { animation: none; opacity: 0.7; }
 }
 
 /* ================================================================
@@ -335,6 +384,7 @@ article #single_header h1::after {
    ================================================================ */
 
 .post-card {
+  position: relative;
   display: block;
   padding: 1rem 1.2rem;
   margin-bottom: 0.75rem;
@@ -352,6 +402,56 @@ article #single_header h1::after {
   border-left-color: rgb(var(--color-primary-400));
   transform: translateX(4px);
   box-shadow: -4px 0 0 rgb(var(--color-primary-400));
+}
+
+/* ================================================================
+   3D Magnetic Tilt Cards (progressive enhancement — JS required)
+   ================================================================ */
+
+/* When tilt JS is active, take over transform handling */
+.tilt-enabled .post-card {
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast) var(--ease-out),
+    box-shadow var(--transition-fast) var(--ease-out);
+}
+
+/* Specular highlight — ambient light that follows the cursor */
+.tilt-enabled .post-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(245, 158, 11, 0.07),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base) var(--ease-out);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tilt-enabled .post-card.tilt-active::before {
+  opacity: 1;
+}
+
+.tilt-enabled .post-card:hover {
+  border-left-color: rgb(var(--color-primary-400));
+  transform: none;
+  box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.4);
+}
+
+/* Spring-back easing on mouse leave */
+.tilt-enabled .post-card.tilt-return {
+  transition:
+    border-color var(--transition-fast) var(--ease-out),
+    box-shadow var(--transition-fast) var(--ease-out),
+    transform 600ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-enabled .post-card::before { display: none; }
 }
 
 .post-card__meta {
