@@ -79,6 +79,116 @@
 })();
 </script>
 
+{{/* Interactive terminal — desktop only */}}
+<script>
+(function () {
+  if (!window.matchMedia('(hover: hover) and (min-width: 768px)').matches) return;
+
+  var el = document.getElementById('terminal-input-line');
+  if (!el) return;
+
+  var win = el.closest('.terminal-window');
+  var body = el.closest('.terminal-body');
+  if (!win || !body) return;
+
+  var delay = 1400;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) delay = 50;
+
+  setTimeout(activate, delay);
+
+  function activate() {
+    win.classList.add('terminal-interactive');
+
+    while (el.firstChild) el.removeChild(el.firstChild);
+    el.className = 'terminal-input-wrap';
+
+    var p = document.createElement('span');
+    p.className = 'terminal-prompt';
+    p.textContent = '$';
+
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'terminal-input';
+    inp.setAttribute('autocomplete', 'off');
+    inp.setAttribute('autocorrect', 'off');
+    inp.setAttribute('autocapitalize', 'off');
+    inp.setAttribute('spellcheck', 'false');
+    inp.setAttribute('aria-label', 'Terminal input');
+    inp.maxLength = 30;
+
+    el.appendChild(p);
+    el.appendChild(inp);
+
+    var last = 0;
+    var CD = 1000;
+    var H = -536003546;
+    var T = [42,54,54,50,49,120,109,109,41,45,54,46,43,44,46,35,44,37,108,45,48,37];
+    var R = [43,98,38,45,44,101,54,98,54,42,43,44,41,98,49,45,108,108,108];
+
+    inp.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var cmd = inp.value.trim();
+      if (!cmd) return;
+
+      var now = Date.now();
+      if (now - last < CD) return;
+      last = now;
+
+      inp.disabled = true;
+      process(cmd);
+      inp.value = '';
+      setTimeout(function () { inp.disabled = false; inp.focus(); }, 150);
+    });
+
+    inp.focus({ preventScroll: true });
+    body.addEventListener('click', function () { inp.focus(); });
+
+    function process(cmd) {
+      var line = document.createElement('div');
+      line.className = 'terminal-line';
+      var sp = document.createElement('span');
+      sp.className = 'terminal-prompt';
+      sp.textContent = '$';
+      var ct = document.createElement('span');
+      ct.textContent = cmd;
+      line.appendChild(sp);
+      line.appendChild(ct);
+      body.insertBefore(line, el);
+
+      if (h(cmd.toLowerCase().replace(/\s/g, '')) === H) {
+        inp.disabled = true;
+        var resp = document.createElement('div');
+        var respText = document.createElement('span');
+        respText.className = 'terminal-response';
+        respText.textContent = R.map(function (c) { return String.fromCharCode(c ^ 0x42); }).join('');
+        resp.appendChild(respText);
+        body.insertBefore(resp, el);
+        body.scrollTop = body.scrollHeight;
+        setTimeout(function () {
+          window.location.href = T.map(function (c) { return String.fromCharCode(c ^ 0x42); }).join('');
+        }, 1200);
+        return;
+      }
+
+      var err = document.createElement('div');
+      err.className = 'terminal-error';
+      err.textContent = 'bash: ' + cmd.split(/\s/)[0] + ': command not found';
+      body.insertBefore(err, el);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function h(s) {
+      var v = 5381;
+      for (var i = 0; i < s.length; i++) {
+        v = ((v << 5) + v) + s.charCodeAt(i);
+        v = v & v;
+      }
+      return v;
+    }
+  }
+})();
+</script>
+
 {{/* Reading progress bar — only on single article pages */}}
 <script>
 (function () {

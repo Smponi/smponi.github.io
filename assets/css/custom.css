@@ -312,7 +312,7 @@ article #single_header h1::after {
   display: flex;
   align-items: baseline;
   gap: 0.6em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.15em;
 }
 
 .terminal-prompt {
@@ -377,6 +377,97 @@ article #single_header h1::after {
   .terminal-reveal { opacity: 1; animation: none; transform: none; }
   .terminal-window { animation: none; }
   .terminal-glow-wrap::before { animation: none; opacity: 0.7; }
+}
+
+/* ================================================================
+   Interactive Terminal (desktop only — activated by JS)
+   ================================================================ */
+
+.terminal-interactive {
+  overflow: hidden;
+}
+
+.terminal-interactive .terminal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.terminal-interactive .terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-interactive .terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-interactive .terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-neutral-500), 0.4);
+  border-radius: 3px;
+}
+.terminal-interactive .terminal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-neutral-500), 0.6);
+}
+
+.terminal-input-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  margin-bottom: 0.15em;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgb(var(--color-neutral-100));
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  caret-color: rgb(var(--color-primary-400));
+}
+
+.terminal-input:focus,
+.terminal-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.terminal-input::placeholder {
+  color: transparent;
+}
+
+.terminal-input:disabled {
+  opacity: 0.5;
+}
+
+.terminal-error {
+  color: #ff5f57;
+  margin-bottom: 0.15em;
+}
+
+.terminal-response {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  color: #28c840;
+  animation: typing-response 0.8s steps(20) forwards;
+  margin-bottom: 0.15em;
+}
+
+@keyframes typing-response {
+  to { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-interactive .terminal-body {
+    scroll-behavior: auto;
+  }
+  .terminal-response {
+    width: 100%;
+    animation: none;
+  }
 }
 
 /* ================================================================
