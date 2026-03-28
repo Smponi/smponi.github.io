@@ -445,6 +445,11 @@ article #single_header h1::after {
   opacity: 0.5;
 }
 
+.terminal-out {
+  margin-bottom: 0.15em;
+  white-space: pre-wrap;
+}
+
 .terminal-error {
   color: #ff5f57;
   margin-bottom: 0.15em;

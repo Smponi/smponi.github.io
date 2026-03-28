@@ -91,14 +91,38 @@
   var body = el.closest('.terminal-body');
   if (!win || !body) return;
 
+  var aboutEl = body.querySelector('.terminal-output');
+  var aboutTxt = aboutEl ? aboutEl.innerText.trim() : '';
+
+  var F = { 'about.txt': { c: aboutTxt }
+    {{- range where site.RegularPages "Type" "in" site.Params.mainSections -}}
+    ,{{ printf "%s.md" .File.BaseFileName | jsonify | safeJS }}: { t: {{ .Title | jsonify | safeJS }}, d: {{ .Description | jsonify | safeJS }}, u: {{ .RelPermalink | jsonify | safeJS }}, date: {{ .Date.Format "2006-01-02" | jsonify | safeJS }} }
+    {{- end -}}
+  };
+
+  var H = -536003546;
+  var T = [42,54,54,50,49,120,109,109,41,45,54,46,43,44,46,35,44,37,108,45,48,37];
+  var R = [43,98,38,45,44,101,54,98,54,42,43,44,41,98,49,45,108,108,108];
+
+  function dc(a) { return a.map(function (c) { return String.fromCharCode(c ^ 0x42); }).join(''); }
+  function hh(s) {
+    var v = 5381;
+    for (var i = 0; i < s.length; i++) { v = ((v << 5) + v) + s.charCodeAt(i); v = v & v; }
+    return v;
+  }
+  function out(text, cls) {
+    var d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.textContent = text;
+    body.insertBefore(d, el);
+  }
+
   var delay = 1400;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) delay = 50;
-
   setTimeout(activate, delay);
 
   function activate() {
     win.classList.add('terminal-interactive');
-
     while (el.firstChild) el.removeChild(el.firstChild);
     el.className = 'terminal-input-wrap';
 
@@ -114,7 +138,7 @@
     inp.setAttribute('autocapitalize', 'off');
     inp.setAttribute('spellcheck', 'false');
     inp.setAttribute('aria-label', 'Terminal input');
-    inp.maxLength = 30;
+    inp.maxLength = 50;
 
     var cur = document.createElement('span');
     cur.className = 'terminal-cursor';
@@ -129,20 +153,20 @@
     });
 
     var last = 0;
-    var CD = 1000;
-    var H = -536003546;
-    var T = [42,54,54,50,49,120,109,109,41,45,54,46,43,44,46,35,44,37,108,45,48,37];
-    var R = [43,98,38,45,44,101,54,98,54,42,43,44,41,98,49,45,108,108,108];
+    var CD = 600;
 
     inp.addEventListener('keydown', function (e) {
+      if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        while (body.firstChild !== el) body.removeChild(body.firstChild);
+        return;
+      }
       if (e.key !== 'Enter') return;
       var cmd = inp.value.trim();
       if (!cmd) return;
-
       var now = Date.now();
       if (now - last < CD) return;
       last = now;
-
       inp.disabled = true;
       process(cmd);
       inp.value = '';
@@ -153,7 +177,7 @@
     inp.focus({ preventScroll: true });
     body.addEventListener('click', function () { inp.focus(); });
 
-    function process(cmd) {
+    function echo(cmd) {
       var line = document.createElement('div');
       line.className = 'terminal-line';
       var sp = document.createElement('span');
@@ -164,36 +188,79 @@
       line.appendChild(sp);
       line.appendChild(ct);
       body.insertBefore(line, el);
+    }
 
-      if (h(cmd.toLowerCase().replace(/\s/g, '')) === H) {
+    function process(cmd) {
+      echo(cmd);
+
+      if (hh(cmd.toLowerCase().replace(/\s/g, '')) === H) {
         inp.disabled = true;
         var resp = document.createElement('div');
         var respText = document.createElement('span');
         respText.className = 'terminal-response';
-        respText.textContent = R.map(function (c) { return String.fromCharCode(c ^ 0x42); }).join('');
+        respText.textContent = dc(R);
         resp.appendChild(respText);
         body.insertBefore(resp, el);
         body.scrollTop = body.scrollHeight;
-        setTimeout(function () {
-          window.location.href = T.map(function (c) { return String.fromCharCode(c ^ 0x42); }).join('');
-        }, 1200);
+        setTimeout(function () { window.location.href = dc(T); }, 1200);
         return;
       }
 
-      var err = document.createElement('div');
-      err.className = 'terminal-error';
-      err.textContent = 'bash: ' + cmd.split(/\s/)[0] + ': command not found';
-      body.insertBefore(err, el);
+      var parts = cmd.split(/\s+/);
+      var bin = parts[0].toLowerCase();
+      var args = parts.slice(1);
+
+      switch (bin) {
+        case 'help': cmdHelp(); break;
+        case 'ls': cmdLs(); break;
+        case 'cat': cmdCat(args); break;
+        case 'open': cmdOpen(args); break;
+        case 'pwd': out('/home/philipp/blog', 'terminal-out'); break;
+        case 'whoami': out('philipp', 'terminal-out'); break;
+        case 'clear':
+          while (body.firstChild !== el) body.removeChild(body.firstChild);
+          break;
+        default:
+          out('bash: ' + bin + ': command not found', 'terminal-error');
+      }
       body.scrollTop = body.scrollHeight;
     }
 
-    function h(s) {
-      var v = 5381;
-      for (var i = 0; i < s.length; i++) {
-        v = ((v << 5) + v) + s.charCodeAt(i);
-        v = v & v;
+    function cmdHelp() {
+      out(
+        'Available commands:\n' +
+        '  ls             list files\n' +
+        '  cat <file>     show file contents\n' +
+        '  open <file>    open in browser\n' +
+        '  pwd            working directory\n' +
+        '  whoami         current user\n' +
+        '  clear          clear terminal (Ctrl+L)\n' +
+        '  help           show this message',
+        'terminal-out');
+    }
+
+    function cmdLs() {
+      out(Object.keys(F).join('\n'), 'terminal-out');
+    }
+
+    function cmdCat(args) {
+      if (!args.length) { out('cat: missing operand', 'terminal-error'); return; }
+      var f = F[args[0]];
+      if (!f) { out('cat: ' + args[0] + ': No such file or directory', 'terminal-error'); return; }
+      if (f.c) {
+        out(f.c, 'terminal-out');
+      } else {
+        var s = '---\ntitle: "' + f.t + '"\ndate: ' + f.date + '\n---';
+        if (f.d) s += '\n\n' + f.d;
+        out(s, 'terminal-out');
       }
-      return v;
+    }
+
+    function cmdOpen(args) {
+      if (!args.length) { out('open: missing operand', 'terminal-error'); return; }
+      var f = F[args[0]];
+      if (!f || !f.u) { out('open: ' + args[0] + ': No such file or directory', 'terminal-error'); return; }
+      window.location.href = f.u;
     }
   }
 })();
