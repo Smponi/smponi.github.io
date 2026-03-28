@@ -116,8 +116,17 @@
     inp.setAttribute('aria-label', 'Terminal input');
     inp.maxLength = 30;
 
+    var cur = document.createElement('span');
+    cur.className = 'terminal-cursor';
+    cur.textContent = '_';
+
     el.appendChild(p);
     el.appendChild(inp);
+    el.appendChild(cur);
+
+    inp.addEventListener('input', function () {
+      inp.style.width = inp.value.length ? inp.value.length + 'ch' : '0';
+    });
 
     var last = 0;
     var CD = 1000;
@@ -137,6 +146,7 @@
       inp.disabled = true;
       process(cmd);
       inp.value = '';
+      inp.style.width = '0';
       setTimeout(function () { inp.disabled = false; inp.focus(); }, 150);
     });
 

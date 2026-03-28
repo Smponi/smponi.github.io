@@ -410,12 +410,14 @@ article #single_header h1::after {
 .terminal-input-wrap {
   display: flex;
   align-items: baseline;
-  gap: 0.6em;
   margin-bottom: 0.15em;
 }
 
+.terminal-input-wrap > .terminal-prompt {
+  margin-right: 0.6em;
+}
+
 .terminal-input {
-  flex: 1;
   background: transparent;
   border: none;
   outline: none;
@@ -424,7 +426,9 @@ article #single_header h1::after {
   font-size: inherit;
   line-height: inherit;
   padding: 0;
-  caret-color: rgb(var(--color-primary-400));
+  width: 0;
+  min-width: 0;
+  caret-color: transparent;
 }
 
 .terminal-input:focus,
