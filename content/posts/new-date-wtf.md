@@ -1,5 +1,5 @@
 ---
-title: "new Date(wtf)
+title: "new Date(wtf)"
 date: "2026-05-19"
 tags: ["JavaScript", "Date", "Java", "Design", "Temporal"]
 description: "Bisschen was zu Date in JavaScript. Wo das eigentlich herkommt, wie man das heutzutage mit Temporal richtig machen sollte. Und das Immutability kein nice to have, sondern ein must have ist."
