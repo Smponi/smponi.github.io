@@ -1,0 +1,6 @@
+{{ $anchor := anchorize .Anchor }}
+<h{{ .Level }} id="{{ $anchor }}" class="relative group">{{ .Text | safeHTML }}
+  {{ if .Page.Params.showHeadingAnchors | default (.Page.Site.Params.article.showHeadingAnchors | default true) }}
+    <a class="heading-anchor absolute top-0 w-6 opacity-0 -start-6 not-prose select-none" href="#{{ $anchor }}" aria-label="{{ .Text | plainify }}: {{ i18n "article.anchor_label" }}">#</a>
+  {{ end }}
+</h{{ .Level }}>
