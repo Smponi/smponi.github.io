@@ -1,0 +1,28 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="text-scale" content="scale">
+  {{ with .Site.Language.Params.htmlCode | default .Site.LanguageCode }}<meta http-equiv="content-language" content="{{ . }}">{{ end }}
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="theme-color">
+  {{ if .IsHome }}<title>{{ .Site.Title | emojify }}</title>{{ else if eq .Kind "404" }}<title>Seite nicht gefunden · {{ .Site.Title | emojify }}</title>{{ else }}<title>{{ .Title | emojify }} · {{ .Site.Title | emojify }}</title>{{ end }}
+  {{ with (.Params.Summary | default .Params.Description) | default .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .RelPermalink }}" title="{{ $.Site.Title | emojify }}">{{ end }}
+  {{ with .Site.Params.Author.name }}<meta name="author" content="{{ . }}">{{ end }}
+  {{ template "_internal/opengraph.html" . }}{{ template "_internal/twitter_cards.html" . }}
+  {{ $alg := .Site.Params.fingerprintAlgorithm | default "sha512" }}
+  {{ $cssResources := slice }}{{ $schemeName := .Site.Params.colorScheme | default "blowfish" }}
+  {{ $cssResources = $cssResources | append (resources.Get (printf "css/schemes/%s.css" (lower $schemeName)) | default (resources.Get "css/schemes/blowfish.css")) }}
+  {{ $cssResources = $cssResources | append (resources.Get "css/compiled/main.css") }}{{ with resources.Get "css/custom.css" }}{{ $cssResources = $cssResources | append . }}{{ end }}
+  {{ $bundleCSS := $cssResources | resources.Concat "css/main.bundle.css" | resources.Minify | resources.Fingerprint $alg }}
+  <link rel="stylesheet" href="{{ $bundleCSS.RelPermalink }}" integrity="{{ $bundleCSS.Data.Integrity }}">
+  {{ $appearance := resources.Get "js/appearance.js" | resources.ExecuteAsTemplate "js/appearance.js" . | resources.Minify | resources.Fingerprint $alg }}<script src="{{ $appearance.RelPermalink }}" integrity="{{ $appearance.Data.Integrity }}"></script>
+  {{ $jsResources := slice }}
+  {{ if site.Params.footer.showScrollToTop | default true }}{{ $jsResources = $jsResources | append (resources.Get "js/scroll-to-top.js") }}{{ end }}
+  {{ if .Site.Params.enableSearch }}{{ $jsResources = $jsResources | append (resources.Get "lib/fuse/fuse.min.js") | append (resources.Get "js/search.js") }}{{ end }}
+  {{ if .Site.Params.enableCodeCopy }}{{ $jsResources = $jsResources | append (resources.Get "js/code.js") }}{{ end }}
+  {{ $jsResources = $jsResources | append (resources.Get "js/katex-render.js") | append (resources.Get "js/print-support.js") | append (resources.Get "js/email.js") }}
+  {{ $bundleJS := $jsResources | resources.Concat "js/main.bundle.js" | resources.Minify | resources.Fingerprint $alg }}<script defer id="script-bundle" src="{{ $bundleJS.RelPermalink }}" integrity="{{ $bundleJS.Data.Integrity }}" data-copy="{{ i18n "code.copy" }}" data-copied="{{ i18n "code.copied" }}"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}"><link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | relURL }}"><link rel="manifest" href="{{ "site.webmanifest" | relURL }}">
+  {{ partial "schema.html" . }}{{ partialCached "extend-head.html" .Site }}
+</head>
