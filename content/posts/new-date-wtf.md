@@ -78,7 +78,7 @@ Anders gesagt:
 > js-joda war im Prinzip Temporal, bevor JavaScript Temporal hatte.  
 > Nur eben als Library. Nicht als Sprache.
 
-# Tempora: endlich eine native Lösung
+## Tempora: endlich eine native Lösung
 
 >Stand **19.05.2026** ist Temporal fachlich in jedem Browser angekommen, nur WebKit macht WebKit dinge. ([MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal?utm_source=chatgpt.com "Temporal - JavaScript | MDN"))
 
