@@ -2,3 +2,15 @@ search:
   open_button_title: "Suche (/ oder ⌘K)"
   close_button_title: "Schließen (Esc)"
   input_placeholder: "Suche Posts…"
+  dialog_label: "Website durchsuchen"
+  input_label: "Suchbegriff"
+  results_status:
+    one: "{{ .Count }} Suchergebnis"
+    other: "{{ .Count }} Suchergebnisse"
+  no_results: "Keine Suchergebnisse"
+nav:
+  primary: "Hauptnavigation"
+  menu_open: "Hauptnavigation öffnen"
+  menu_close: "Hauptnavigation schließen"
+external:
+  new_window: " (öffnet in einem neuen Fenster)"
