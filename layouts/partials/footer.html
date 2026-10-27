@@ -1,0 +1,15 @@
+<footer id="site-footer" class="site-footer print:hidden">
+  <p class="site-footer__exit" aria-hidden="true"><span>~ $</span> exit</p>
+  <div class="site-footer__row">
+    <p>&copy; {{ now.Format "2006" }} {{ site.Home.Title }}</p>
+    <nav aria-label="Weitere Links">
+      {{ range .Site.Menus.main }}
+        {{ if or (strings.HasPrefix .URL "http:") (strings.HasPrefix .URL "https:") }}
+          <a href="{{ .URL }}" target="_blank" rel="noopener">{{ or .Name (index (dict "github" "GitHub" "linkedin" "LinkedIn") .Identifier) .Identifier }}<span class="visually-hidden-heading">{{ i18n "external.new_window" }}</span></a>
+        {{ end }}
+      {{ end }}
+      {{ with .Site.Home.OutputFormats.Get "rss" }}<a href="{{ .RelPermalink }}">RSS</a>{{ end }}
+    </nav>
+  </div>
+  {{ if templates.Exists "partials/extend-footer.html" }}{{ partialCached "extend-footer.html" . }}{{ end }}
+</footer>

@@ -1,0 +1,30 @@
+{{ define "main" }}
+  <article class="post">
+    <header class="post-head">
+      <nav class="post-path" aria-label="Pfad">
+        <a href="{{ "" | relLangURL }}">~</a>/{{ with .Parent }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ path.Base .RelPermalink }}</a>/{{ end }}{{ end }}<span aria-current="page">{{ path.Base .RelPermalink }}</span>
+      </nav>
+      <h1 class="post-title" style="view-transition-name: post-{{ .File.ContentBaseName | anchorize }}">{{ .Title | emojify }}</h1>
+      {{ with .Description }}{{ if eq $.Section "posts" }}<p class="post-dek">{{ . }}</p>{{ end }}{{ end }}
+      {{ if eq .Section "posts" }}
+        <dl class="post-meta">
+          <div><dt>Veröffentlicht</dt><dd><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time></dd></div>
+          <div><dt>Lesezeit</dt><dd>{{ .ReadingTime }} {{ cond (eq .ReadingTime 1) "Minute" "Minuten" }}</dd></div>
+          {{ with .GetTerms "tags" }}
+            <div><dt>Tags</dt><dd><ul class="post-tags">{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}</ul></dd></div>
+          {{ end }}
+        </dl>
+      {{ end }}
+    </header>
+
+    <div class="post-body prose dark:prose-invert">
+      {{ .Content }}
+    </div>
+
+    {{ if eq .Section "posts" }}
+      <footer class="post-foot print:hidden">
+        {{ partial "article-pagination.html" . }}
+      </footer>
+    {{ end }}
+  </article>
+{{ end }}

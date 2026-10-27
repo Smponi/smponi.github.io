@@ -1,27 +1,18 @@
 {{ define "main" }}
-<div class="w-full mt-8">
-  <div class="terminal-window w-full">
-    <div class="terminal-header">
-      <span aria-hidden="true" class="terminal-dot terminal-dot--red"></span>
-      <span aria-hidden="true" class="terminal-dot terminal-dot--yellow"></span>
-      <span aria-hidden="true" class="terminal-dot terminal-dot--green"></span>
-      <span class="terminal-title">philipp@blog:~</span>
+<div class="lost">
+  <div class="term">
+    <div class="term__bar">
+      <span class="term__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="term__title">philipp@smponias: ~</span>
+      <span class="term__size" aria-hidden="true">zsh</span>
     </div>
-    <div class="terminal-body">
+    <div class="term__screen">
       <h1 class="visually-hidden-heading">Seite nicht gefunden</h1>
-      <div class="terminal-line" aria-hidden="true">
-        <span class="terminal-prompt">$</span>
-        <span>cat 404.html</span>
-      </div>
-      <p class="mt-3 mb-6" style="color: #ff5f57;">Fehler 404: Seite nicht gefunden.</p>
-      <div class="terminal-line">
-        <span aria-hidden="true" class="terminal-prompt">$</span>
-        <span>cd <a href="/" aria-label="Zur Startseite" class="text-primary-400 hover:text-primary-300" style="transition: color 150ms;">~</a></span>
-      </div>
-      <div class="terminal-line" style="margin-top: 1.5em;">
-        <span aria-hidden="true" class="terminal-prompt">$</span>
-        <span aria-hidden="true" class="terminal-cursor">_</span>
-      </div>
+      <div class="term__line" aria-hidden="true"><span class="term__ps1">~ $</span> cd <span data-lost-path>/irgendwo</span></div>
+      <script>try { document.querySelector('[data-lost-path]').textContent = decodeURI(location.pathname); } catch (e) {}</script>
+      <p class="term__line term__err">cd: Seite nicht gefunden (404)</p>
+      <div class="term__line"><span class="term__ps1" aria-hidden="true">~ $</span> <a href="{{ "" | relLangURL }}">cd ~</a>   <a href="{{ "posts/" | relLangURL }}">ls posts/</a></div>
+      <div class="term__line" aria-hidden="true"><span class="term__ps1">~ $</span> <span class="term__cursor"></span></div>
     </div>
   </div>
 </div>

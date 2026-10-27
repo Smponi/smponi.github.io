@@ -3,9 +3,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="text-scale" content="scale">
   {{ with .Site.Language.Params.htmlCode | default .Site.LanguageCode }}<meta http-equiv="content-language" content="{{ . }}">{{ end }}
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="theme-color">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="theme-color" content="#0f1020">
   {{ if .IsHome }}<title>{{ .Site.Title | emojify }}</title>{{ else if eq .Kind "404" }}<title>Seite nicht gefunden · {{ .Site.Title | emojify }}</title>{{ else }}<title>{{ .Title | emojify }} · {{ .Site.Title | emojify }}</title>{{ end }}
   {{ with (.Params.Summary | default .Params.Description) | default .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+  <link rel="preload" href="/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="canonical" href="{{ .Permalink }}">
   {{ range .AlternativeOutputFormats }}<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .RelPermalink }}" title="{{ $.Site.Title | emojify }}">{{ end }}
   {{ with .Site.Params.Author.name }}<meta name="author" content="{{ . }}">{{ end }}

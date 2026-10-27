@@ -1,50 +1,66 @@
-{{/* Homepage: Terminal-inspired hero + recent posts */}}
-<div class="max-w-prose mx-auto">
-  <h1 class="visually-hidden-heading">Philipps Blog</h1>
-
-  {{/* Terminal window + ambient glow */}}
-  <div class="terminal-glow-wrap">
-  <div class="terminal-window">
-    <div class="terminal-header">
-      <span aria-hidden="true" class="terminal-dot terminal-dot--red"></span>
-      <span aria-hidden="true" class="terminal-dot terminal-dot--yellow"></span>
-      <span aria-hidden="true" class="terminal-dot terminal-dot--green"></span>
-      <span class="terminal-title">philipp@blog:~</span>
-    </div>
-    <div class="terminal-body">
-      <div class="terminal-line">
-        <span aria-hidden="true" class="terminal-prompt">$</span>
-        <span class="terminal-typed">cat about.txt</span>
-      </div>
-      {{ with .Content }}
-        <section class="prose dark:prose-invert terminal-output terminal-reveal" style="--reveal-delay: 0.85s;">
-          {{ . }}
-        </section>
-      {{ end }}
-      <div id="terminal-input-line" class="terminal-line terminal-reveal" style="--reveal-delay: 1.1s;" aria-live="polite">
-        <span aria-hidden="true" class="terminal-prompt">$</span>
-        <span aria-hidden="true" class="terminal-cursor">_</span>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  {{/* Latest posts section */}}
-  <section class="mt-16">
-    <h2 class="section-heading" data-reveal>// Letzte Posts</h2>
-    {{ range first 3 (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) }}
-      <a href="{{ .RelPermalink }}" class="post-card" data-reveal>
-        <div class="post-card__meta">
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02.01.2006" }}</time>
-          <span>{{ .ReadingTime }} min</span>
-        </div>
-        <h3 class="post-card__title">{{ .Title }}</h3>
-        {{ with .Description }}<p class="post-card__desc">{{ . }}</p>{{ end }}
-      </a>
-    {{ end }}
-    <a href="/posts/" class="writing-link text-primary-400 mt-6 inline-block" data-reveal>
-      ls ./posts/ &rarr;
-    </a>
+{{/* Homepage: typed greeting, a live terminal running neofetch, recent posts */}}
+{{ $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{ $greeting := .Params.greeting | default site.Title }}
+{{ $first := index $posts.ByDate 0 }}
+<div class="home">
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="hero__title">
+      <span class="visually-hidden-heading">{{ $greeting }}</span>
+      <span class="hero__typed" aria-hidden="true">{{ range $i, $c := split $greeting "" }}<span style="--i: {{ $i }}">{{ $c }}</span>{{ end }}<span class="hero__cursor" style="--i: {{ len $greeting }}"></span></span>
+    </h1>
+    {{ with .Content }}<div class="hero__lead">{{ . }}</div>{{ end }}
   </section>
 
+  <div class="term-stage">
+  <div class="term" data-term>
+    <div class="term__bar">
+      <span class="term__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="term__title">philipp@smponias: ~</span>
+      <span class="term__size" aria-hidden="true">zsh</span>
+    </div>
+    <div class="term__screen" role="region" aria-label="Terminal">
+      <div class="term__log">
+        <div class="term__line term__boot-cmd"><span class="term__ps1" aria-hidden="true">~ $</span> <span class="term__typed">neofetch</span></div>
+        <div class="term__neofetch term__boot-out">
+          <pre class="term__art" aria-hidden="true" data-cols="30" data-rows="22">{{ (resources.Get "monogram.txt").Content }}</pre>
+          <div class="term__info">
+            <p class="term__host"><span>philipp</span>@<span>smponias</span></p>
+            <p class="term__rule" aria-hidden="true">----------------</p>
+            <dl>
+              {{ range .Params.neofetch }}<div><dt>{{ index . 0 }}</dt><dd>{{ index . 1 }}</dd></div>{{ end }}
+              <div><dt>Posts</dt><dd>{{ len $posts }}</dd></div>
+              {{ with index $posts 0 }}<div><dt>Neu</dt><dd><a href="{{ .RelPermalink }}">{{ .Title }}</a></dd></div>{{ end }}
+              {{ with $first }}<div><dt>Uptime</dt><dd data-since="{{ .Date.Format "2006-01-02" }}">{{ div (sub now.Unix .Date.Unix) 86400 }} Tage</dd></div>{{ end }}
+            </dl>
+            <p class="term__swatches" aria-hidden="true">{{ range seq 8 }}<i></i>{{ end }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="term__line term__boot-prompt" data-term-prompt><span class="term__ps1" aria-hidden="true">~ $</span> <span class="term__cursor" aria-hidden="true"></span></div>
+      <p class="visually-hidden-heading" aria-live="polite" data-term-live></p>
+    </div>
+    <div class="term__status" data-term-hints hidden>
+      <span>Probier mal</span>
+      <button type="button" data-cmd="help">help</button>
+      <button type="button" data-cmd="ls">ls</button>
+      <button type="button" data-cmd="whoami">whoami</button>
+      <button type="button" data-cmd="open 1">open 1</button>
+    </div>
+    {{ $data := slice }}
+    {{ range $posts }}{{ $data = $data | append (dict "title" .Title "url" .RelPermalink "date" (.Date.Format "2006-01-02") "desc" .Description "min" .ReadingTime "slug" (.File.ContentBaseName | anchorize)) }}{{ end }}
+    <script type="application/json" data-term-posts>{{ $data | jsonify | safeJS }}</script>
+  </div>
+  </div>
+
+  <section class="recent" aria-labelledby="recent-title">
+    <div class="recent__head">
+      <h2 id="recent-title">Zuletzt geschrieben</h2>
+      <a href="{{ "posts/" | relLangURL }}">Alle {{ len $posts }} Posts</a>
+    </div>
+    <ol class="post-list" data-post-list>
+      {{ range first 3 $posts }}{{ partial "post-row.html" . }}{{ end }}
+    </ol>
+  </section>
 </div>
+{{ $term := slice | append (resources.Get "js/monogram.js") | append (resources.Get "js/terminal.js") | resources.Concat "js/terminal.bundle.js" | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
+<script defer src="{{ $term.RelPermalink }}" integrity="{{ $term.Data.Integrity }}"></script>

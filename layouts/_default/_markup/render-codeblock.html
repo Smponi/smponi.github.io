@@ -1,0 +1,4 @@
+{{- $lang := or .Type "text" -}}
+<div class="highlight-wrapper" data-lang="{{ or .Attributes.title $lang }}">
+  {{- transform.Highlight .Inner $lang .Options -}}
+</div>

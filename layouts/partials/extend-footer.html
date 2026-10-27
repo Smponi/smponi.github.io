@@ -11,24 +11,34 @@
     menu.addEventListener('close', function () { if (returnFocus) returnFocus.focus(); });
     menu.addEventListener('click', function (event) { if (event.target === menu) menu.close(); });
   }
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('revealed'); });
-  else if ('IntersectionObserver' in window) {
-    var obs = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('revealed'); obs.unobserve(entry.target); } }); }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('[data-reveal]').forEach(function (el) { obs.observe(el); });
+
+  /* j / k move through post lists, like any good TUI */
+  var rows = document.querySelectorAll('[data-post-list] .post-row__link');
+  if (rows.length) document.addEventListener('keydown', function (event) {
+    var key = event.key, active = document.activeElement, tag = active && active.tagName;
+    if ((key !== 'j' && key !== 'k') || event.metaKey || event.ctrlKey || event.altKey || document.querySelector('dialog[open]')) return;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || (active && active.isContentEditable)) return;
+    var list = Array.prototype.slice.call(rows), at = list.indexOf(active);
+    var next = key === 'j' ? (at < 0 ? 0 : Math.min(at + 1, list.length - 1)) : (at < 0 ? list.length - 1 : Math.max(at - 1, 0));
+    event.preventDefault();
+    list[next].focus();
+    list[next].scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  /* Reading progress: CSS scroll timeline does the work where it exists */
+  if (document.querySelector('.post-body')) {
+    var bar = document.createElement('div');
+    bar.className = 'reading-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+    if (!(window.CSS && CSS.supports('animation-timeline: scroll()'))) {
+      var update = function () {
+        var total = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (total > 0 ? Math.min(window.scrollY / total, 1) : 1) + ')';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
   }
-  if (window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
-    var cards = document.querySelectorAll('.post-card'); if (cards.length) { document.documentElement.classList.add('tilt-enabled'); cards.forEach(function (card) { var bounds, raf; card.addEventListener('mouseenter', function () { bounds = card.getBoundingClientRect(); card.classList.add('tilt-active'); }); card.addEventListener('mousemove', function (event) { if (raf) return; raf = requestAnimationFrame(function () { var x = (event.clientX - bounds.left) / bounds.width, y = (event.clientY - bounds.top) / bounds.height; card.style.transform = 'perspective(800px) rotateX(' + ((.5-y)*12).toFixed(2) + 'deg) rotateY(' + ((x-.5)*12).toFixed(2) + 'deg) scale3d(1.02,1.02,1)'; card.style.setProperty('--mouse-x', (x*100).toFixed(1)+'%'); card.style.setProperty('--mouse-y', (y*100).toFixed(1)+'%'); raf = null; }); }); card.addEventListener('mouseleave', function () { if (raf) cancelAnimationFrame(raf); card.classList.remove('tilt-active'); card.style.transform = ''; }); }); }
-  }
-  if (!window.matchMedia('(hover: hover) and (min-width: 48rem)').matches) return;
-  var el = document.getElementById('terminal-input-line'); if (!el) return;
-  var win = el.closest('.terminal-window'), body = el.closest('.terminal-body'); if (!win || !body) return;
-  win.classList.add('terminal-interactive'); el.replaceChildren(); el.className = 'terminal-input-wrap';
-  var prompt = document.createElement('span'), input = document.createElement('input'), cursor = document.createElement('span'), live = document.createElement('div');
-  prompt.className = 'terminal-prompt'; prompt.setAttribute('aria-hidden', 'true'); prompt.textContent = '$'; input.type = 'text'; input.className = 'terminal-input'; input.setAttribute('aria-label', 'Terminaleingabe'); input.setAttribute('autocomplete', 'off'); input.maxLength = 30; cursor.className = 'terminal-cursor'; cursor.setAttribute('aria-hidden', 'true'); cursor.textContent = '_'; live.className = 'visually-hidden-heading'; live.setAttribute('aria-live', 'polite'); el.append(prompt, input, cursor, live);
-  input.addEventListener('input', function () { input.style.width = Math.min(Math.max(input.value.length, 1), 30) + 'ch'; });
-  input.addEventListener('keydown', function (event) { if (event.key !== 'Enter' || !input.value.trim()) return; var command = input.value.trim(), line = document.createElement('div'), mark = document.createElement('span'), content = document.createElement('span'), error = document.createElement('div'); mark.className = 'terminal-prompt'; mark.setAttribute('aria-hidden', 'true'); mark.textContent = '$'; line.className = 'terminal-line'; content.textContent = command; line.append(mark, content); error.className = 'terminal-error'; error.textContent = 'bash: ' + command.split(/\s/)[0] + ': command not found'; body.insertBefore(line, el); body.insertBefore(error, el); live.textContent = error.textContent; input.value = ''; input.style.width = '1ch'; body.scrollTop = body.scrollHeight; });
 }());
-</script>
-<script>
-(function () { var article = document.querySelector('article .prose'); if (!article) return; var bar = document.createElement('div'); bar.className = 'reading-progress'; bar.setAttribute('aria-hidden', 'true'); document.body.appendChild(bar); function update() { var total = article.scrollHeight - window.innerHeight, rect = article.getBoundingClientRect(); bar.style.width = (total <= 0 ? 100 : Math.min(Math.max(-rect.top / total, 0), 1) * 100) + '%'; } window.addEventListener('scroll', update, { passive: true }); update(); }());
 </script>

@@ -1,0 +1,20 @@
+{{/* Year-grouped post index for sections and tag pages */}}
+<header class="index-head">
+  <h1 class="index-title">{{ if eq .Kind "term" }}<span>#</span>{{ end }}{{ .Title }}</h1>
+  <p class="index-sub">
+    {{ if eq .Kind "term" }}{{ len .Pages }} {{ cond (eq (len .Pages) 1) "Post" "Posts" }} zu diesem Thema.
+    {{ else }}{{ with .Description }}{{ . }}{{ else }}{{ site.Params.Author.headline }}{{ end }}{{ end }}
+  </p>
+</header>
+{{ with .Content }}<div class="post-body prose dark:prose-invert">{{ . }}</div>{{ end }}
+
+{{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
+  <section class="year" aria-labelledby="year-{{ .Key }}">
+    <h2 class="year__label" id="year-{{ .Key }}">{{ .Key }}</h2>
+    <ol class="post-list" data-post-list>
+      {{ range .Pages }}{{ partial "post-row.html" . }}{{ end }}
+    </ol>
+  </section>
+{{ end }}
+<p class="index-hint"><kbd>j</kbd> <kbd>k</kbd> springen durch die Liste, <kbd>Enter</kbd> öffnet.</p>
+{{ partial "pagination.html" . }}
